@@ -1,0 +1,130 @@
+[project]
+name = "sysgraph"
+version = "0.1.0"
+description = "智能系统诊断工具 - 基于AI的跨平台系统监控和诊断解决方案"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{name = "SysGraph Team", email = "team@sysgraph.io"}]
+license = {text = "MIT"}
+keywords = ["system-diagnosis", "ai", "monitoring", "multi-agent", "pyqt6"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: System :: Systems Administration",
+    "Topic :: System :: Monitoring",
+]
+dependencies = [
+    # AI & LangChain
+    "langchain>=0.1.0",
+    "langgraph>=0.0.40",
+    "transformers>=4.36.0", 
+    "torch>=2.0.0",
+    "huggingface-hub>=0.19.0",
+    "accelerate>=0.25.0",
+    
+    # GUI Framework
+    "PyQt6>=6.6.0",
+    "PyQt6-Qt6>=6.6.0",
+    "qdarkstyle>=3.2.0",
+    "qt-material>=2.14",
+    
+    # System Information
+    "psutil>=5.9.0",
+    "netifaces>=0.11.0",
+    "ping3>=4.0.0",
+    "speedtest-cli>=2.1.0",
+    
+    # Data & Configuration
+    "pydantic>=2.5.0",
+    "pyyaml>=6.0.0",
+    "toml>=0.10.0",
+    "jsonschema>=4.20.0",
+    
+    # Utilities
+    "loguru>=0.7.0",
+    "requests>=2.31.0",
+    "aiohttp>=3.9.0",
+    "asyncio-mqtt>=0.13.0",
+    "python-dateutil>=2.8.0",
+    
+    # Plotting & Charts
+    "matplotlib>=3.8.0",
+    "plotly>=5.17.0",
+    "pyqtgraph>=0.13.0",
+    
+    # Packaging
+    "pyinstaller>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-qt>=4.2.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.7.0",
+    "pre-commit>=3.5.0",
+]
+
+[project.scripts]
+sysgraph = "sysgraph.main:main"
+sysgraph-cli = "sysgraph.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sysgraph/sysgraph"
+Repository = "https://github.com/sysgraph/sysgraph.git"
+Issues = "https://github.com/sysgraph/sysgraph/issues"
+Documentation = "https://sysgraph.readthedocs.io/"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "agents",
+    "collectors", 
+    "core",
+    "gui",
+    "models",
+    "rules",
+    "utils"
+]
+include = [
+    "main.py",
+    "__init__.py",
+    "README.md"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "gui: marks tests as GUI tests",
+]
